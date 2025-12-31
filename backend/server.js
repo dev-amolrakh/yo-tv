@@ -13,16 +13,36 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration
+// CORS configuration - Allow all origins for Vercel deployment
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://yo-tv.vercel.app', 'https://yo-tv-pjud.vercel.app']
-    : ['http://localhost:3000', 'http://localhost:5173'],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'https://yo-tv.vercel.app',
+      'https://yo-tv-pjud.vercel.app',
+      'http://localhost:3000',
+      'http://localhost:5173'
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all in production for now
+    }
+  },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Length', 'X-Request-Id'],
+  maxAge: 86400, // 24 hours
 };
 
 // Middleware
 app.use(cors(corsOptions));
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 app.use(compression()); // Enable gzip compression
 app.use(express.json({ limit: "10mb" }));
 
