@@ -10,6 +10,12 @@ node_modules/
 .env.production.local
 backend/.env
 frontend/.env
+frontend/.env.local
+
+# Keep example env files
+!backend/.env.example
+!frontend/.env.production
+!frontend/.env.development
 
 # Build outputs
 dist/
