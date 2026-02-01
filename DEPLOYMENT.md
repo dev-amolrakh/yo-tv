@@ -8,7 +8,7 @@ Add these environment variables in Vercel dashboard:
 
 ```
 NODE_ENV=production
-MONGODB_URI=your_monog_url
+MONGODB_URI=your_mongo_url
 ADMIN_PASSWORD=adminpass
 ```
 
@@ -44,4 +44,5 @@ The backend is configured to accept requests from:
 
 - Health check: https://yo-tv-pjud.vercel.app/api/health
 - Frontend: https://yo-tv.vercel.app/
+
 
